@@ -198,6 +198,12 @@ def test_batch_lists_every_molecule(client):
     assert res["content"][-1]["text"].count("[PNG](") == 2
 
 
+def test_unnamed_reaction_gets_a_readable_label(client):
+    res = _call(client, "generate_reaction", {"reactants": ["CC=O"], "products": ["CCO"], "conditions": "NaBH4"})
+    assert "- Reaction scheme: [PNG](" in res["content"][-1]["text"]
+    assert "cdxml" in res["structuredContent"]["download_urls"]
+
+
 def test_scope_table_does_not_get_cdxml_injected(client):
     res = _call(client, "generate_scope_table", {"entries": [
         {"structure": "CCO", "label": "1a", "yield_text": "90%"},

@@ -80,6 +80,7 @@ SERVED_TYPES = {
     ".apkg": ("application/octet-stream", False),
 }
 
+_KIND_LABELS = {"reaction": "Reaction scheme", "molecule": "Structure"}
 _FORMAT_LABELS = {"png": "PNG", "cdxml": "CDXML (opens in ChemDraw)", "svg": "SVG", "sdf": "SDF"}
 
 _REMOTE_INSTRUCTIONS = """\
@@ -235,7 +236,9 @@ def _attach_urls(node: Any, cfg: RemoteConfig) -> None:
 def downloads_text(cfg: RemoteConfig, structured: Any) -> str:
     """Der kurze Textblock fürs Modell: je Struktur eine Zeile Markdown-Links."""
     groups: list[tuple[str, dict[str, str]]] = []
-    _collect(structured, "Files", groups)
+    # Reaktionsschemata tragen meist keinen Namen; dann der Payload-Typ als Zeilenkopf.
+    kind = structured.get("type", "") if isinstance(structured, dict) else ""
+    _collect(structured, _KIND_LABELS.get(kind, kind.capitalize() or "Files"), groups)
     lines = []
     order = ["png", "cdxml", "svg"]
     for name, files in groups:

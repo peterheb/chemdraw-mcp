@@ -39,6 +39,9 @@ chemdraw-doctor = "chemdraw_tool.doctor:main"
 # Eintragen in Claude Desktop ohne Repo-Clone — der Weg, den PyPI-/Registry-
 # Nutzer gehen (install.sh gibt es dort nicht).
 chemdraw-install = "chemdraw_tool.desktop_config:main"
+# Remote-Betrieb (claude.ai-Connector): Streamable HTTP + Datei-Downloads,
+# siehe chemdraw_tool/remote.py. Ändert am stdio-Weg nichts.
+chemdraw-remote = "chemdraw_tool.remote:main"
 
 [build-system]
 requires = ["hatchling"]

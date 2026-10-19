@@ -35,6 +35,7 @@ from pathlib import Path
 import requests
 
 from chemdraw_tool import resolver
+from chemdraw_tool.paths import output_root
 
 # --- Einstufung ---------------------------------------------------------------
 
@@ -67,7 +68,7 @@ _PNG_MAGIC = b"\x89PNG\r\n\x1a\n"
 _PROBE_SMILES = "CCO"
 
 # Wurzel der Ausgaben; server.py legt darunter einzelmolekuele/, spektren/ usw. an.
-OUTPUT_ROOT = Path.home() / "ChemDraw-Output"
+OUTPUT_ROOT = output_root()
 
 # Exakt die Toleranz des Resolvers: prüfte die Diagnose strenger, meldete sie eine
 # Einschränkung, die der Server gar nicht hat (NCI CIR antwortet real oft erst nach

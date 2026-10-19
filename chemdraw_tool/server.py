@@ -38,6 +38,7 @@ from chemdraw_tool.image_export import (
     write_files,
 )
 from chemdraw_tool.layout import write_reaction_cdxml
+from chemdraw_tool.paths import output_root
 from chemdraw_tool.payloads import (
     AnkiCard,
     AnkiDeckPayload,
@@ -73,14 +74,14 @@ from chemdraw_tool.validator import Severity, validate_input, validate_roundtrip
 from chemdraw_tool.vault import is_enabled as vault_enabled
 from chemdraw_tool.vault import list_entries, read_entry, search
 
-OUTPUT_DIR = Path.home() / "ChemDraw-Output" / "einzelmolekuele"
-REACTION_DIR = Path.home() / "ChemDraw-Output"
-SPECTRUM_DIR = Path.home() / "ChemDraw-Output" / "spektren"
-TLC_DIR = Path.home() / "ChemDraw-Output" / "dc-platten"
-SCOPE_DIR = Path.home() / "ChemDraw-Output" / "scope"
-ANKI_DIR = Path.home() / "ChemDraw-Output" / "anki"
-PLOT_DIR = Path.home() / "ChemDraw-Output" / "diagramme"
-THREED_DIR = Path.home() / "ChemDraw-Output" / "3d"
+OUTPUT_DIR = output_root() / "einzelmolekuele"
+REACTION_DIR = output_root()
+SPECTRUM_DIR = output_root() / "spektren"
+TLC_DIR = output_root() / "dc-platten"
+SCOPE_DIR = output_root() / "scope"
+ANKI_DIR = output_root() / "anki"
+PLOT_DIR = output_root() / "diagramme"
+THREED_DIR = output_root() / "3d"
 
 # PNG/SVG sind die Primärformate (laufen ohne ChemDraw); CDXML ist das
 # optionale Zusatzformat für Nutzer, die in ChemDraw weiterbearbeiten wollen.
@@ -3085,7 +3086,7 @@ def save_png(png_base64: str, filename: str) -> str:
     """
     from chemdraw_tool.png_writer import save_png_bytes
 
-    png_dir = Path.home() / "ChemDraw-Output" / "png"
+    png_dir = output_root() / "png"
     try:
         path = save_png_bytes(png_base64, filename, png_dir)
     except (ValueError, OSError) as exc:
@@ -3207,7 +3208,7 @@ mcp = create_server()
 def main():
     import logging
 
-    log_path = Path.home() / "ChemDraw-Output" / "server.log"
+    log_path = output_root() / "server.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
     fh = logging.FileHandler(str(log_path))
     fh.setLevel(logging.DEBUG)
